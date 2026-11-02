@@ -1,0 +1,15 @@
+# Saída temporária da compilação
+app/build/
+*.idsig
+
+# Chave de assinatura e senha: nunca no Git
+app/chave/
+*.jks
+*.keystore
+senha.txt
+
+# Backups e logs tirados da central (têm IDs, MACs e configurações do seu carro)
+backups/
+diagnosticos/
+testes-bt/
+testes-carro/

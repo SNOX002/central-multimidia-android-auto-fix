@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="br.central.destravarbt"
+    android:versionCode="6"
+    android:versionName="1.5">
+
+    <!-- Só para abrir a conexão com o adb da própria central (127.0.0.1:5555). -->
+    <uses-permission android:name="android.permission.INTERNET" />
+    <!-- Para reiniciar o Bluetooth da central quando a música BT não volta (a Jancar religa o celular sozinha). -->
+    <uses-permission android:name="android.permission.BLUETOOTH" />
+    <uses-permission android:name="android.permission.BLUETOOTH_ADMIN" />
+
+    <application
+        android:label="@string/app_name"
+        android:icon="@mipmap/ic_launcher"
+        android:allowBackup="false">
+        <activity
+            android:name=".MainActivity"
+            android:theme="@android:style/Theme.Material.Dialog.NoActionBar"
+            android:excludeFromRecents="true"
+            android:screenOrientation="landscape">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+        <!-- Segundo ícone, com tarefa própria para não se misturar com o "Destravar BT". -->
+        <activity
+            android:name=".ReiniciarAAActivity"
+            android:label="@string/reiniciar_aa"
+            android:icon="@mipmap/ic_aa"
+            android:taskAffinity="br.central.destravarbt.reiniciaraa"
+            android:theme="@android:style/Theme.Material.Dialog.NoActionBar"
+            android:excludeFromRecents="true"
+            android:screenOrientation="landscape">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+    </application>
+</manifest>

@@ -1,0 +1,155 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Android Auto fechando sozinho na central multimídia? Correção grátis (CPlink / PhoneLink)</title>
+<meta name="description" content="Central multimídia chinesa com Android Auto sem fio fechando sozinho, música Bluetooth que não toca e o aviso &quot;PhoneLink está conectado, a operação atual não é compatível&quot;? Veja a causa e instale a correção grátis, sem root.">
+<meta name="keywords" content="android auto fechando sozinho, central multimídia, phonelink está conectado, cplink, ac8227l, jancar, música bluetooth não toca, ativar adb central multimídia, senha configurações de fábrica 5678, android auto sem fio">
+<link rel="canonical" href="https://snox002.github.io/central-multimidia-android-auto-fix/">
+<meta property="og:type" content="website">
+<meta property="og:locale" content="pt_BR">
+<meta property="og:title" content="Android Auto fechando sozinho na central multimídia? Correção grátis">
+<meta property="og:description" content="Causa e correção (sem root) para Android Auto sem fio que fecha sozinho, música BT bloqueada e o aviso do PhoneLink em centrais AC8227L / Jancar.">
+<meta property="og:url" content="https://snox002.github.io/central-multimidia-android-auto-fix/">
+<meta name="twitter:card" content="summary">
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "SoftwareApplication",
+      "name": "Destravar BT e Reiniciar AA",
+      "operatingSystem": "Android 8.1",
+      "applicationCategory": "UtilitiesApplication",
+      "description": "App para centrais multimídia AC8227L / Jancar que desfaz as travas deixadas pelo Android Auto sem fio (música Bluetooth bloqueada e aviso do PhoneLink) e reinicia o Android Auto.",
+      "offers": { "@type": "Offer", "price": "0", "priceCurrency": "BRL" },
+      "downloadUrl": "https://github.com/SNOX002/central-multimidia-android-auto-fix/releases/latest",
+      "license": "https://opensource.org/licenses/MIT"
+    },
+    {
+      "@type": "FAQPage",
+      "mainEntity": [
+        { "@type": "Question", "name": "Por que o Android Auto da central multimídia fecha sozinho?",
+          "acceptedAnswer": { "@type": "Answer", "text": "Nas centrais AC8227L com sistema Jancar, o app de Android Auto de fábrica (versão O.250702) trava toda vez que a sessão sem fio termina (erro play() called on uninitialized AudioTrack). O app Reiniciar AA recomeça a sessão do zero." } },
+        { "@type": "Question", "name": "O que significa \"PhoneLink está conectado, a operação atual não é compatível\"?",
+          "acceptedAnswer": { "@type": "Answer", "text": "A central acha que o Android Auto ou o CarPlay ainda está conectado, porque o Android Auto travou sem avisar que desconectou (configuração phoneMode presa em auto_wireless). O app Destravar BT limpa esse estado." } },
+        { "@type": "Question", "name": "Por que a música Bluetooth não toca depois do Android Auto?",
+          "acceptedAnswer": { "@type": "Answer", "text": "Ao conectar, o Android Auto desliga a música Bluetooth do celular (prioridade A2DP 0) e, ao travar, não religa. A central passa a recusar a música daquele celular até a configuração voltar ao normal, o que o app Destravar BT faz." } },
+        { "@type": "Question", "name": "Qual a senha das configurações de fábrica da central multimídia AC8227L?",
+          "acceptedAnswer": { "@type": "Answer", "text": "Na central testada, a senha 5678 abre as Configurações originais do Android, onde ficam o Número de compilação e as Opções do desenvolvedor. Outras senhas comuns: 1234, 56789, 123456, 8888 e 000000." } },
+        { "@type": "Question", "name": "Precisa de root ou trocar o firmware?",
+          "acceptedAnswer": { "@type": "Answer", "text": "Não. Tudo é feito pelo ADB pela rede Wi-Fi, que já vem ligado nessas centrais, e o app pode ser removido a qualquer momento." } }
+      ]
+    },
+    {
+      "@type": "HowTo",
+      "name": "Como ativar o ADB na central multimídia AC8227L e instalar o app pela rede",
+      "step": [
+        { "@type": "HowToStep", "name": "Abrir as Configurações do Android", "text": "Configurações > Configurações de fábrica > senha 5678." },
+        { "@type": "HowToStep", "name": "Liberar as Opções do desenvolvedor", "text": "Sistema > Sobre o tablet > tocar 7 vezes em Número de compilação." },
+        { "@type": "HowToStep", "name": "Ligar a depuração", "text": "Sistema > Avançado > Opções do desenvolvedor > Depuração USB." },
+        { "@type": "HowToStep", "name": "Conectar pelo Wi-Fi", "text": "Com a central e o computador no mesmo Wi-Fi: adb connect IP-DA-CENTRAL:5555." },
+        { "@type": "HowToStep", "name": "Instalar o app", "text": "adb install -r DestravarBT.apk e tocar em Permitir na primeira vez." }
+      ]
+    }
+  ]
+}
+</script>
+<style>
+:root { --bg: #ffffff; --fg: #1b1f24; --muted: #57606a; --card: #f6f8fa; --borda: #d0d7de; --azul: #1565c0; --verde: #2e7d32; --code: #eaeef2; }
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) { --bg: #0d1117; --fg: #e6edf3; --muted: #9da7b3; --card: #161b22; --borda: #30363d; --azul: #58a6ff; --verde: #56d364; --code: #262c36; }
+}
+:root[data-theme="dark"] { --bg: #0d1117; --fg: #e6edf3; --muted: #9da7b3; --card: #161b22; --borda: #30363d; --azul: #58a6ff; --verde: #56d364; --code: #262c36; }
+* { box-sizing: border-box; }
+body { margin: 0; background: var(--bg); color: var(--fg); font: 17px/1.6 system-ui, -apple-system, "Segoe UI", Roboto, sans-serif; }
+main { max-width: 820px; margin: 0 auto; padding: 24px 16px 64px; }
+h1 { font-size: 1.9rem; line-height: 1.25; margin: 8px 0 12px; }
+h2 { font-size: 1.35rem; margin-top: 40px; border-bottom: 1px solid var(--borda); padding-bottom: 6px; }
+p.lead { font-size: 1.1rem; color: var(--muted); }
+code, pre { background: var(--code); border-radius: 6px; font-family: ui-monospace, Consolas, monospace; font-size: .92em; }
+code { padding: 2px 6px; }
+pre { padding: 12px 14px; overflow-x: auto; }
+.erro { background: var(--card); border-left: 4px solid #d32f2f; padding: 10px 14px; margin: 8px 0; border-radius: 6px; }
+.botoes { display: flex; flex-wrap: wrap; gap: 12px; margin: 20px 0; }
+.botoes a { display: inline-block; padding: 12px 18px; border-radius: 8px; text-decoration: none; font-weight: 600; color: #fff; background: var(--azul); }
+.botoes a.sec { background: transparent; color: var(--azul); border: 2px solid var(--azul); }
+.cards { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 14px; }
+.card { background: var(--card); border: 1px solid var(--borda); border-radius: 10px; padding: 14px 16px; }
+.card h3 { margin: 0 0 6px; font-size: 1.1rem; }
+details { background: var(--card); border: 1px solid var(--borda); border-radius: 8px; padding: 10px 14px; margin: 10px 0; }
+summary { cursor: pointer; font-weight: 600; }
+a { color: var(--azul); }
+footer { color: var(--muted); font-size: .9rem; margin-top: 48px; }
+</style>
+</head>
+<body>
+<main>
+<h1>Android Auto fechando sozinho na central multimídia? Música Bluetooth não toca? "PhoneLink está conectado"?</h1>
+<p class="lead">Causa encontrada e correção grátis, <strong>sem root e sem trocar firmware</strong>, para centrais multimídia chinesas com chip
+<strong>AC8227L</strong> e sistema <strong>Jancar</strong> (as que vêm com o app <strong>CPlink</strong> / PhoneLink e dizem ser "Android 12/13/15").</p>
+
+<div class="botoes">
+  <a href="https://github.com/SNOX002/central-multimidia-android-auto-fix/releases/latest">Baixar o app (APK)</a>
+  <a class="sec" href="https://github.com/SNOX002/central-multimidia-android-auto-fix#passo-a-passo">Passo a passo completo</a>
+</div>
+
+<h2>Você tem algum destes problemas?</h2>
+<ul>
+  <li><strong>Android Auto sem fio fecha sozinho</strong>: mostra o mapa, toca a música e some.</li>
+  <li><strong>Música Bluetooth não toca</strong> depois de usar o Android Auto, ou o celular conecta só para chamadas.</li>
+  <li>O Bluetooth "só entra depois de muita luta" e não volta nem reiniciando a central.</li>
+  <li>CPlink e Android Auto abrindo sozinhos e continuando abertos mesmo depois de limpar a multitarefa.</li>
+  <li>Ao dar play na Música BT aparece:</li>
+</ul>
+<div class="erro">PhoneLink está conectado, a operação atual não é compatível!</div>
+<div class="erro">PhoneLink is connected, the current operation is not supported!</div>
+<div class="erro">PhoneLink está conectado, la operación actual no es compatible.</div>
+
+<h2>Por que acontece</h2>
+<p>O app de Android Auto que vem de fábrica nessas centrais (<code>com.google.android.projection.sink</code>, versão <code>O.250702</code>)
+<strong>trava toda vez que a sessão sem fio termina</strong> (<code>play() called on uninitialized AudioTrack</code>). Como trava, ele não desfaz o que mudou ao conectar:</p>
+<ul>
+  <li>deixa a <strong>música Bluetooth do seu celular desligada</strong> na central (<code>bluetooth_a2dp_src_priority = 0</code>), e ela continua assim <em>mesmo depois de reiniciar</em>;</li>
+  <li>deixa a central achando que o <strong>PhoneLink continua conectado</strong> (<code>phoneMode = auto_wireless</code>), e daí vem o aviso.</li>
+</ul>
+
+<h2>A solução: dois ícones na central</h2>
+<div class="cards">
+  <div class="card"><h3>🔵 Destravar BT</h3>Fecha o Android Auto e o CPlink, religa a música Bluetooth, desfaz o PhoneLink e, se a música não voltar em 5 segundos, reinicia o Bluetooth. Fecha sozinho.</div>
+  <div class="card"><h3>🟢 Reiniciar AA</h3>Para quando o Android Auto começa a fechar sozinho: limpa tudo, reinicia o Bluetooth e abre o Android Auto do zero.</div>
+</div>
+
+<h2>Como instalar (resumo)</h2>
+<ol>
+  <li>Na central: <strong>Configurações &gt; Configurações de fábrica &gt; senha <code>5678</code></strong> (abre as Configurações do Android).</li>
+  <li><strong>Sistema &gt; Sobre o tablet</strong> &gt; toque <strong>7 vezes em "Número de compilação"</strong>.</li>
+  <li><strong>Sistema &gt; Avançado &gt; Opções do desenvolvedor</strong> &gt; ligue <strong>Depuração USB</strong>.</li>
+  <li>Ponha a central e o computador no mesmo Wi-Fi, instale o ADB e rode:</li>
+</ol>
+<pre>adb connect IP-DA-CENTRAL:5555
+adb install -r DestravarBT.apk</pre>
+<p>Na primeira vez que tocar no ícone, aceite "Permitir depuração" na tela da central. O passo a passo detalhado, com o caminho dos menus, outras senhas e como fazer backup antes, está no
+<a href="https://github.com/SNOX002/central-multimidia-android-auto-fix#passo-a-passo">repositório</a>.</p>
+
+<h2>Perguntas frequentes</h2>
+<details><summary>Funciona na minha central?</summary>
+<p>Foi testado numa AC8227L com firmware Jancar <code>JCAC10003-OC2</code> (Android real 8.1). Se a sua tem o app CPlink e mostra o aviso do PhoneLink, as chances são boas. Se não servir, é só desinstalar.</p></details>
+<details><summary>Precisa de root, cabo USB ou trocar firmware?</summary>
+<p>Não. O ADB pela rede Wi-Fi já vem ligado nessas centrais. A porta USB delas normalmente é só para pendrive.</p></details>
+<details><summary>Qual a senha das configurações de fábrica da central AC8227L?</summary>
+<p><code>5678</code> abriu as Configurações do Android na central testada. Outras comuns: <code>1234</code> (menu do carro), <code>56789</code>, <code>123456</code>, <code>8888</code>, <code>000000</code>. Não teste códigos de um dígito nem <code>4321</code>.</p></details>
+<details><summary>Dá para impedir o CPlink e o Android Auto de abrirem sozinhos?</summary>
+<p>Sem root, não: o sistema bloqueia. Os ícones são a forma de limpar quando precisar.</p></details>
+<details><summary>Devo instalar um firmware "Android 13/14" para resolver?</summary>
+<p>Não. Esses firmwares são falsos para esse chip e podem deixar a central inutilizável. A correção daqui não troca nada do sistema.</p></details>
+
+<footer>
+Projeto aberto (licença MIT) · Código e passo a passo em
+<a href="https://github.com/SNOX002/central-multimidia-android-auto-fix">github.com/SNOX002/central-multimidia-android-auto-fix</a>.
+Use por sua conta e risco.
+</footer>
+</main>
+</body>
+</html>
