@@ -55,6 +55,22 @@ Como trava, ele nunca desfaz o que mudou ao conectar, e deixa **três travas**:
 3. **"Áudio" desligado no celular.** O próprio celular pode desligar a mídia para a central no Bluetooth dele.
    Essa trava está no celular, e o app não alcança; ele só lembra de religar.
 
+### Android Auto fechando assim que a música começa
+
+Outro motivo, com o mesmo erro (`play() called on uninitialized AudioTrack`), apareceu depois de a central ficar
+**12 dias sem reiniciar**: o AA fecha **no instante em que a música começa a tocar por ele** (o mapa funciona).
+O log mostra que o Android **recusa o canal de som** da música:
+
+```
+AudioFlinger: no more track names available
+AudioTrack: AudioFlinger could not create track, status: -12
+```
+
+O **rádio da Jancar** (`com.jancar.radio`, app persistente, não dá para fechar) **vaza canais de som**: estava com
+13 canais abertos e parados (`dumpsys media.audio_flinger`). Com o misturador lotado, o AA não consegue o canal da
+música. **Reiniciar a central libera tudo**, e por um tempo funciona. Por isso o app, a partir da v1.7,
+**conta os canais** e, se passarem de 11, avisa e oferece o botão **"Reiniciar a central"** (só reinicia se você tocar).
+
 Outros fatos úteis desta central:
 
 - A tela diz "Android 12/15", mas o sistema real é **Android 8.1 (SDK 27)**.
@@ -190,6 +206,11 @@ adb shell "settings put global phoneMode ''"
 - O **reinício do Bluetooth** é feito pelo próprio app (`BluetoothAdapter.disable()/enable()`, permissão
   `BLUETOOTH_ADMIN`), porque o `adb shell` desta central **não** tem permissão para isso. Ao religar,
   a Jancar reconecta o último celular sozinha. Com ligação em andamento, o app não reinicia o Bluetooth.
+- **Canais de som (v1.7):** os dois ícones leem `dumpsys media.audio_flinger`. Com 11 ou mais canais ocupados no
+  misturador principal, mostram o aviso de "som lotado" e o botão **Reiniciar a central** (o mesmo que
+  `adb reboot`, pelo adb local). Nada é reiniciado sem o toque no botão.
+- **Espião opcional:** se houver um diagnóstico instalado em `/sdcard/espiao/` (scripts próprios, não incluídos
+  aqui), o app o religa quando a central liga e quando um ícone é tocado. Sem essa pasta, isso não faz nada.
 
 ### O que não dá para fazer sem root
 

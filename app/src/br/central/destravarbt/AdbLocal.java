@@ -121,6 +121,16 @@ final class AdbLocal {
         }
     }
 
+    /** Reinicia a central (o mesmo que "adb reboot"). A conexão cai logo em seguida. */
+    void reiniciar() throws IOException {
+        enviar(OPEN, proximoId++, 0, "reboot:\0".getBytes(UTF8));
+        try {
+            receber();
+        } catch (IOException esperado) {
+            // A central começa a desligar e derruba a conexão.
+        }
+    }
+
     void fechar() {
         try {
             if (socket != null) socket.close();

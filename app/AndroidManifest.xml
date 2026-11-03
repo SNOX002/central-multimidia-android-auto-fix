@@ -1,14 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="br.central.destravarbt"
-    android:versionCode="6"
-    android:versionName="1.5">
+    android:versionCode="8"
+    android:versionName="1.7">
 
     <!-- Só para abrir a conexão com o adb da própria central (127.0.0.1:5555). -->
     <uses-permission android:name="android.permission.INTERNET" />
     <!-- Para reiniciar o Bluetooth da central quando a música BT não volta (a Jancar religa o celular sozinha). -->
     <uses-permission android:name="android.permission.BLUETOOTH" />
     <uses-permission android:name="android.permission.BLUETOOTH_ADMIN" />
+    <!-- Para religar o espião de diagnóstico (se instalado) quando a central liga. -->
+    <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
 
     <application
         android:label="@string/app_name"
@@ -38,5 +40,10 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <receiver android:name=".InicioReceiver">
+            <intent-filter>
+                <action android:name="android.intent.action.BOOT_COMPLETED" />
+            </intent-filter>
+        </receiver>
     </application>
 </manifest>

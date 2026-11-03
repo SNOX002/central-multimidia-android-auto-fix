@@ -9,6 +9,8 @@ import android.content.Intent;
  *   3. reinicia o Bluetooth da central (sem ligação em andamento), para o celular reconectar e o AA sem fio
  *      começar uma sessão nova - o AA acorda sozinho quando o celular conecta pelo Bluetooth;
  *   4. abre a tela do Android Auto.
+ * Antes de tudo confere os canais de som: se o rádio da Jancar lotou o misturador, reiniciar o AA não adianta
+ * (ele trava de novo ao tocar música), então oferece reiniciar a central.
  */
 public class ReiniciarAAActivity extends TelaBase {
 
@@ -21,6 +23,14 @@ public class ReiniciarAAActivity extends TelaBase {
 
     @Override
     void trabalhar(AdbLocal adb) throws Exception {
+        Canais canais = lerCanais(adb);
+        if (canais.lotado()) {
+            oferecerReinicio("⚠ O som da central está lotado: " + canais.descricao() + ".\n\n"
+                + "Por isso o Android Auto fecha ao tocar música, e reiniciá-lo não resolve.\n"
+                + "Reiniciar a central libera os canais (leva cerca de 1 minuto).");
+            return;
+        }
+
         mostrar("Fechando o Android Auto...");
         String saida = adb.shell(FECHAR_AA_CPLINK + LIMPAR_TRAVAS + "log -t REINICIAR_AA executado; echo FIM");
         StringBuilder r = new StringBuilder(resumo(saida));

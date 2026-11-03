@@ -29,17 +29,26 @@ public class MainActivity extends TelaBase {
         if (saida.contains("OK_PHONELINK")) r.append("\nSe o celular desconectar nos próximos segundos, a central religa sozinha.\n");
 
         mostrar(r + "\nConferindo o Bluetooth...");
+        String fim;
         if (musicaConectadaEm(adb, ESPERA_MUSICA_MS)) {
-            mostrar(r + "\n✔ Música BT conectada. Pode apertar play.");
+            fim = "✔ Música BT conectada. Pode apertar play.";
         } else if (emLigacao()) {
-            mostrar(r + "\nMúsica BT não conectada, mas há uma ligação em andamento.\nReconecte pelo celular depois.");
+            fim = "Música BT não conectada, mas há uma ligação em andamento.\nReconecte pelo celular depois.";
         } else {
             mostrar(r + "\nMúsica BT não conectada: reiniciando o Bluetooth da central...");
             String falha = reiniciarBluetooth();
-            mostrar(r + "\n" + (falha == null
+            fim = falha == null
                 ? "✔ Bluetooth reiniciado. A central vai reconectar o celular em alguns segundos.\n"
                     + "Se a música não voltar: no celular, Bluetooth > (nome da central) > ligue \"Áudio\"."
-                : falha + " Reconecte pelo celular."));
+                : falha + " Reconecte pelo celular.";
+        }
+
+        Canais canais = lerCanais(adb);
+        if (canais.lotado()) {
+            oferecerReinicio(r + "\n" + fim + "\n\n⚠ O som da central está lotado: " + canais.descricao() + ".\n"
+                + "O Android Auto vai travar ao tocar música até a central reiniciar.");
+        } else {
+            mostrar(r + "\n" + fim);
         }
     }
 }
