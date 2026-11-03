@@ -9,6 +9,10 @@ Este é o kit para começarmos. A ordem é esta:
 | 3 | [03-conectar-api-meta.md](03-conectar-api-meta.md) | *(Opcional, depois)* Libera acesso **só de leitura** aos seus Insights pela API oficial da Meta | 30 a 40 min |
 | 4 | [04-proposta-coletor-docker.md](04-proposta-coletor-docker.md) | *(Opcional)* Aprova ou ajusta a ferramenta que vai puxar os seus números automaticamente | Só ler e aprovar |
 
+## Prompt de contexto para IA
+[PROMPT-CONTEXTO.md](PROMPT-CONTEXTO.md): cole em qualquer IA (Claude, ChatGPT, Gemini) para ela entender o algoritmo e
+saber **como pesquisar e aprofundar** quando receber uma tarefa.
+
 ## O que você recebe de mim
 1. **Diagnóstico do perfil:** nome, bio, posts fixados, destaques e o que está travando a conversão em seguidores.
 2. **Análise do Reels que viralizou:** por que funcionou e como repetir.
